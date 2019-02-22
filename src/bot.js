@@ -1,14 +1,15 @@
 const HTTPS = require('https'),
 	config = require('./config.js'),
-	mention = require('./mention.js'),
+	//mention = require('./mention.js'), removed
 	stats = require('./stats.js'),
 	giphy = require('./giphy.js');
 
 function respond() {
 	const msg = JSON.parse(this.req.chunks[0]),
 		botRegex = /Bot/i,
-		mentionRegex = /(@all|@everyone|@guys)/i,
+		//mentionRegex = /(@all|@everyone|@guys)/i,
 		statsRegex = /@stats/i;
+		insultRegex = /Christine|christine|Marjabelle|marjabelle/i
 
 	if(!msg.text) return;
 	const txt = msg.text;
@@ -24,12 +25,14 @@ function respond() {
 		postMsg('Starting analysis...');
 		getStats(msg);
 		this.res.end('posted stats');
-	} else if(mentionRegex.test(txt)) {
-		this.res.writeHead(200);
-		console.log('call: mention all');
-		mention.all(postMsg);
-		this.res.end('mentioned all');
-	} else if(txt.indexOf('#') > -1) {
+	}
+	//else if(mentionRegex.test(txt)) {
+	//	this.res.writeHead(200);
+	//	console.log('call: mention all');
+	//	mention.all(postMsg);
+	//	this.res.end('mentioned all');
+	//} 
+	else if(txt.indexOf('#') > -1) {
 		this.res.writeHead(200);
 		console.log('call: giphy');
 		let search = '',
